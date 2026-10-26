@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="kaa">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BILIM SINAW AI — Toliq sistema (Oqıwshı + Oqıtıwshı + Admin)</title>
+<style>
+:root{--bg:#050b1e;--cyan:#00e5ff;--blue:#3b82f6;--card:#0e1b3dee;--mut:#8fa3c7;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b}
+*{margin:0;padding:0;box-sizing:border-box}body{background:radial-gradient(1100px 500px at 85% -10%,#12306e66,transparent),radial-gradient(900px 500px at 5% 15%,#00e5ff1a,transparent),var(--bg);color:#e8f4ff;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:30;background:#050b1ef2;border-bottom:1px solid #00e5ff33;backdrop-filter:blur(12px)}
+.nav{max-width:1300px;margin:auto;padding:10px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.logo{font-weight:900;font-size:19px}.logo span{color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+.links{display:flex;gap:5px;flex-wrap:wrap}.links button{background:transparent;border:1px solid transparent;color:var(--mut);padding:7px 11px;border-radius:10px;cursor:pointer;font-size:13px}
+.links button.act,.links button:hover{color:#fff;border-color:#00e5ff66;background:#00e5ff11}
+.userbox{margin-left:auto;display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mut)}
+.wrap{max-width:1300px;margin:auto;padding:18px 16px 60px}
+.card{background:var(--card);border:1px solid #00e5ff2c;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 10px 40px #00000055}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}@media(max-width:860px){.hero{grid-template-columns:1fr}}
+h1{font-size:clamp(28px,5vw,50px)}h1 .neon{color:var(--cyan);text-shadow:0 0 18px var(--cyan)}
+.sub{color:var(--mut);margin:10px 0 16px;line-height:1.6}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.badge{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #00e5ff55;color:var(--cyan);background:#00e5ff0d}
+.robot{min-height:300px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 60%,#00e5ff33,#0a153366 70%);border-radius:16px;border:1px solid #00e5ff33}.bot{font-size:100px;filter:drop-shadow(0 0 25px var(--cyan));animation:f 3s ease-in-out infinite}@keyframes f{50%{transform:translateY(-12px)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:12px}
+.tile{background:var(--card);border:1px solid #ffffff18;border-radius:14px;padding:16px;cursor:pointer}.tile:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 0 22px #00e5ff44}.tile p{color:var(--mut);font-size:13px}.ic{font-size:26px}
+h2{font-size:22px}h2 i{color:var(--cyan);font-style:normal}.desc{color:var(--mut);font-size:13px;margin:4px 0 12px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:8px;border-bottom:1px solid #ffffff12;text-align:left}th{color:var(--cyan);font-size:12px}
+input,select,textarea{background:#060f2a;border:1px solid #00e5ff44;color:#fff;padding:9px 11px;border-radius:10px;width:100%;margin:5px 0;font-size:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:700px){.row2{grid-template-columns:1fr}}
+.btn{background:linear-gradient(90deg,var(--cyan),var(--blue));color:#02131a;font-weight:800;border:none;padding:9px 16px;border-radius:10px;cursor:pointer}.btn.g{background:transparent;color:var(--cyan);border:1px solid var(--cyan)}.btn.d{background:transparent;color:#f87171;border:1px solid #f87171}.btn.s{padding:5px 10px;font-size:12px}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.tab{padding:7px 13px;border-radius:18px;border:1px solid #00e5ff44;cursor:pointer;font-size:13px;color:var(--mut)}.tab.act{background:var(--cyan);color:#02131a;font-weight:800}
+.quiz-opt{display:block;padding:9px 11px;border:1px solid #ffffff22;border-radius:10px;margin:6px 0;cursor:pointer}.quiz-opt.sel{border-color:var(--cyan);background:#00e5ff18}.quiz-opt.ok{border-color:var(--ok);background:#22c55e22}.quiz-opt.bad{border-color:var(--bad);background:#ef444422}
+.timer{font-size:20px;font-weight:900;color:var(--cyan)}.chat{height:230px;overflow:auto;border:1px solid #00e5ff33;border-radius:12px;padding:10px;background:#040a1f;margin:8px 0}.msg{margin:7px 0;padding:9px 11px;border-radius:12px;font-size:14px;max-width:92%}.ai{background:#0e2a5a}.me{background:#00e5ff22;margin-left:auto;border:1px solid #00e5ff55}
+.hidden{display:none!important}.flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.kbd{color:var(--mut);font-size:12px}
+.bar{height:10px;background:#ffffff15;border-radius:6px;overflow:hidden;margin:4px 0 8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+.q{border:1px solid #ffffff1c;border-radius:12px;padding:11px;margin:8px 0;background:#060f2a}
+.badge2{font-size:11px;padding:3px 10px;border-radius:12px;border:1px solid}.on{color:var(--ok);border-color:var(--ok)}.off{color:var(--mut);border-color:#555}
+.layout2{display:grid;grid-template-columns:220px 1fr;gap:14px}@media(max-width:900px){.layout2{grid-template-columns:1fr}}
+.side{background:#0b1730;border:1px solid #00e5ff33;border-radius:14px;padding:10px;height:fit-content}.side button{display:block;width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--mut);padding:9px 11px;border-radius:10px;cursor:pointer;margin:2px 0;font-size:13.5px}.side button.act,.side button:hover{background:#00e5ff15;color:#fff;border-color:#00e5ff55}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:18px}
+.toast{position:fixed;bottom:18px;right:18px;background:#06251f;border:1px solid var(--ok);padding:11px 16px;border-radius:12px;display:none;z-index:99}
+#qrCanvas{border:6px solid #fff;border-radius:8px}
+</style>
+</head>
+<body>
+<header><div class="nav">
+<div class="logo">BILIM <span>SINAW</span> AI</div>
+<div class="links" id="navLinks">
+<button data-v="bas" class="act">Bas bet</button>
+<button data-v="temalar">Temalar</button>
+<button data-v="slayd">Slaydlar</button>
+<button data-v="test">Test orayı</button>
+<button data-v="olimpiada">Olimpiada</button>
+<button data-v="ai">AI ustaz</button>
+<button data-v="oyin">Oyin</button>
+<button data-v="reyting">Reyting</button>
+<button data-v="teacher">👩‍🏫 Oqıtıwshı</button>
+<button data-v="admin">🛡 Admin</button>
+</div>
+<div class="userbox"><span id="uInfo">Miyman</span><button class="btn s g" id="uBtn" onclick="openLogin()">Kiriw</button></div>
+</div></header>
+<div class="wrap">
+
+<!-- LOGIN MODAL -->
+<div class="card hidden" id="v-login"><h2>🔐 <i>Kiriw</i> — rol tańlań</h2><p class="desc">Demo loginler: oqıwshı/123 · muǵallim/123 · admin/123. Dizimnen de qol menen kiriwge boladı.</p>
+<div class="row2"><div><label class="kbd">Rol</label><select id="lRole"><option value="student">Oqıwshı</option><option value="teacher">Oqıtıwshı</option><option value="admin">Admin</option></select></div><div><label class="kbd">Login</label><input id="lLogin" value="oqıwshı"></div></div>
+<div class="row2"><div><label class="kbd">Parol</label><input id="lPass" type="password" value="123"></div><div><label class="kbd">Atı (oqıwshı bolsa) + klass</label><input id="lName" placeholder="Mıs: Aynur 7A"></div></div>
+<div class="flex"><button class="btn" onclick="doLogin()">Kiriw ✅</button><button class="btn g" onclick="show('bas')">Miyman bolıp kóriw</button></div><p class="kbd" id="lMsg"></p></div>
+
+<!-- BAS -->
+<div id="v-bas"><div class="hero"><div class="card">
+<div class="badges"><span class="badge">🤖 AI Future</span><span class="badge">🏫 Qanlıkól 25-mektep</span><span class="badge">📚 5–11 klass</span><span class="badge" id="roleBadge">👤 Miyman</span></div>
+<h1>Informatikanı <span class="neon">AI menen</span> úyren!</h1>
+<p class="sub">Bir platforma — 3 kabinet: oqıwshı, oqıtıwshı, admin. Tema • slayd • 6 túrli test • olimpiada • AI ustaz • oyın • reyting • esabat.</p>
+<button class="btn" onclick="needAuth('test')">🚀 Test tapsırıw</button> <button class="btn g" onclick="show('temalar')">📖 Temalar</button>
+<div class="badges"><span class="badge">✅ Serverde tekseriw</span><span class="badge">⏱ Waqıtlı sınaw</span><span class="badge">🏆 Diplom PDF</span></div>
+</div><div class="robot"><div style="text-align:center"><div class="bot">🤖</div><div style="color:var(--cyan);font-weight:800" id="robotTxt">BILIM SINAW AI</div><div class="kbd">Qaraqalpaq tilinde • neon • 3D</div></div></div></div>
+<div class="grid" id="homeTiles"></div></div>
+
+<!-- TEMALAR -->
+<div class="card hidden" id="v-temalar"><h2>📚 <i>Temalar</i> — 5–11 klasslar</h2><p class="desc">Klasstı tańlań. Oqıtıwshı qosqan temalar da usında kórinedi.</p><div class="tabs" id="klassTabs"></div><div class="grid" id="temaGrid"></div>
+<div id="customTema"></div></div>
+
+<!-- SLAYD -->
+<div class="card hidden" id="v-slayd"><h2>🖥 <i>Slaydlar</i></h2><p class="desc">Oqıtıwshı redaktorındaǵı slaydlar avtomatik usı jerde ashıladı.</p>
+<h3 id="slTitle">Kompyuter qurılmaları</h3><div id="slBody" style="padding:26px;text-align:center;font-size:19px;min-height:120px;background:#040a1f;border-radius:12px;border:1px solid #00e5ff33;margin:10px 0"></div>
+<div class="flex"><button class="btn g" onclick="slide(-1)">◀ Aldınǵı</button><button class="btn" onclick="slide(1)">Keyingi ▶</button><span class="kbd" id="slNum" style="margin-left:auto"></span></div></div>
+
+<!-- TEST -->
+<div class="card hidden" id="v-test"><h2>📝 <i>Test orayı</i> — 6 format</h2><p class="desc" id="testWho">Kirgennen keyin nátiyje atıńızǵa saqlanadı.</p>
+<div class="tabs" id="testTabs"></div>
+<div class="flex"><b id="qCount"></b><span class="timer" id="timer"></span><span style="margin-left:auto"></span><button class="btn g" onclick="startTest(true)">⏱ Waqıtlı (60 sek)</button><button class="btn" onclick="startTest(false)">Baslaw</button></div>
+<div id="quiz" style="margin-top:10px"><p class="kbd">Testti baslaw túymesin basıń. Oqıtıwshı qosqan sorawlar da avtomatik qosıladı.</p></div><div id="qResult" style="margin-top:10px"></div></div>
+
+<!-- OLIMPIADA -->
+<div class="card hidden" id="v-olimpiada"><h2>🏆 <i>Olimpiada</i></h2><p class="desc">Rásmiy qaǵıyda: 1 ret, aralas, waqıt shegi (demo).</p>
+<div class="grid"><div class="tile" onclick="olimp(1)"><div class="ic">🧩</div><h3>1-basqısh 5–6</h3><p>Logika, tiykarlar</p></div><div class="tile" onclick="olimp(2)"><div class="ic">⚙️</div><h3>2-basqısh 7–8</h3><p>Scratch, algoritm</p></div><div class="tile" onclick="olimp(3)"><div class="ic">💻</div><h3>3-basqısh 9–11</h3><p>Python, logika</p></div><div class="tile" onclick="diplom()"><div class="ic">🎓</div><h3>Diplom</h3><p>70+ ball</p></div></div>
+<div class="q" id="olBox" style="margin-top:10px"><span class="kbd">Basqıshtı tańlań.</span></div></div>
+
+<!-- AI -->
+<div class="card hidden" id="v-ai"><h2>🤖 <i>AI ustaz</i></h2><div class="chat" id="chat"><div class="msg ai">Sálem! Men AI ustazban. Sorawıńızdı jazıń: «Algoritm degen ne?»</div></div>
+<div class="flex"><input id="chatIn" placeholder="Soraw..." style="flex:1"><button class="btn" onclick="ask()">Jiber</button></div></div>
+
+<!-- OYIN -->
+<div class="card hidden" id="v-oyin"><h2>🎮 <i>Oyin — kodtı tártiple</i></h2><div id="game"></div><p id="gameRes"></p></div>
+
+<!-- REYTING -->
+<div class="card hidden" id="v-reyting"><h2>⭐ <i>Reyting</i></h2><table><thead><tr><th>#</th><th>Oqıwshı</th><th>Test</th><th>Ball</th></tr></thead><tbody id="rateBody"></tbody></table></div>
+
+<!-- TEACHER -->
+<div class="hidden" id="v-teacher"><div class="layout2"><div class="side" id="tMenu">
+<button data-t="dash" class="act">📊 Dashboard</button><button data-t="klass">👥 Klasslar</button><button data-t="tema">📖 Temalar</button><button data-t="slayd">🖥 Slaydlar</button><button data-t="testr">📝 Test redaktorı</button><button data-t="import">📥 Import</button><button data-t="tarqat">🔗 Tarqatıw+QR</button><button data-t="nat">📋 Nátiyjeler</button><button data-t="analiz">📈 Analiz</button>
+</div><div id="tBody">
+<div class="card tpage" id="t-dash"><h2>👩‍🏫 <i>Oqıtıwshı</i> — Dashboard</h2><div class="grid" id="tStats" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))"></div><div id="tActive" style="margin-top:10px"></div></div>
+<div class="card tpage hidden" id="t-klass"><h2>👥 <i>Klasslar</i></h2><div class="flex"><input id="kName" placeholder="7A" style="max-width:160px"><button class="btn" onclick="klassAdd()">+ Klass</button></div><table><thead><tr><th>Klass</th><th>Oqıwshı</th><th>Orta</th><th>Status</th><th></th></tr></thead><tbody id="kBody"></tbody></table>
+<div class="flex"><input id="sName" placeholder="Oqıwshı atı" style="max-width:200px"><select id="sKlass" style="max-width:130px"></select><button class="btn" onclick="studAdd()">+ Oqıwshı</button></div></div>
+<div class="card tpage hidden" id="t-tema"><h2>📖 <i>Tema jaratıw</i></h2><input id="tmTitle" placeholder="Tema atı"><textarea id="tmDesc" rows="2" placeholder="Túsindirme..."></textarea><button class="btn" onclick="temaAdd()">Saqlaw ✅</button><div id="tmList"></div></div>
+<div class="card tpage hidden" id="t-slayd"><h2>🖥 <i>Slayd redaktorı</i></h2><input id="slT" placeholder="Sarlavha"><textarea id="slX" rows="2" placeholder="Tekst..."></textarea><button class="btn" onclick="slaydAdd()">+ Slayd</button><div id="slList"></div></div>
+<div class="card tpage hidden" id="t-testr"><h2>📝 <i>Test redaktorı</i></h2><div class="row2"><input id="qText" placeholder="Soraw"><input id="qVars" placeholder="v1 ; v2 ; v3"></div><div class="row2"><input id="qOk" placeholder="Durıs indeksi: 1"><input id="qTopic" value="Algoritmler"></div><div class="flex"><button class="btn g" onclick="aiQ()">✨ AI jaratıw</button><button class="btn" onclick="qAdd()">+ Qosıw</button></div><div id="qList"></div></div>
+<div class="card tpage hidden" id="t-import"><h2>📥 <i>Import</i></h2><p class="kbd">Format: Soraw | v1 ; v2 ; v3 | indeks</p><div class="flex"><input type="file" id="imF" accept=".txt,.csv" style="max-width:230px"><button class="btn g" onclick="imRead()">Oqıw</button><button class="btn g" onclick="imDemo()">Demo</button></div><textarea id="imT" rows="4"></textarea><button class="btn" onclick="imParse()">Ajıratıw</button><div id="imOut"></div></div>
+<div class="card tpage hidden" id="t-tarqat"><h2>🔗 <i>Tarqatıw</i></h2><div class="flex"><input id="dTitle" value="7-klass Algoritmler" style="max-width:220px"><button class="btn" onclick="distCreate()">QR jaratıw</button></div><div class="row2"><div><canvas id="qrCanvas" width="140" height="140"></canvas><p class="kbd" id="dLink"></p></div><div id="dList"></div></div></div>
+<div class="card tpage hidden" id="t-nat"><h2>📋 <i>Nátiyjeler</i></h2><div class="flex"><input id="fS" placeholder="Izlew..." style="max-width:170px" oninput="paintNat()"><button class="btn s g" onclick="seedRes()">Demo qosıw</button><button class="btn s" onclick="expCSV()">⬇ CSV</button></div><table><thead><tr><th>Oqıwshı</th><th>Test</th><th>Ball</th><th></th></tr></thead><tbody id="nBody"></tbody></table></div>
+<div class="card tpage hidden" id="t-analiz"><h2>📈 <i>Analiz</i></h2><div id="anBox"></div></div>
+</div></div></div>
+
+<!-- ADMIN -->
+<div class="hidden" id="v-admin"><div class="layout2"><div class="side" id="aMenu">
+<button data-a="users" class="act">👥 Paydalanıwshılar</button><button data-a="ruxsat">🔑 Ruxsatlar</button><button data-a="set">⚙️ Sazlamalar</button><button data-a="db">💾 Baza</button>
+</div><div>
+<div class="card apage" id="a-users"><h2>🛡 <i>Admin</i> — paydalanıwshılar</h2><div class="flex"><input id="auN" placeholder="Login" style="max-width:150px"><select id="auR" style="max-width:150px"><option value="student">Oqıwshı</option><option value="teacher">Oqıtıwshı</option><option value="admin">Admin</option></select><button class="btn" onclick="uAdd()">+ Qosıw (parol:123)</button></div>
+<table><thead><tr><th>Login</th><th>Rol</th><th></th></tr></thead><tbody id="auBody"></tbody></table></div>
+<div class="card apage hidden" id="a-ruxsat"><h2>🔑 <i>Ruxsatlar</i> — modullerdi ashıw/jabıw</h2><div id="permBox"></div></div>
+<div class="card apage hidden" id="a-set"><h2>⚙️ <i>Sazlamalar</i></h2><div class="row2"><div><label class="kbd">Ótiw balı</label><input id="setPass" type="number" value="70"></div><div><label class="kbd">Test waqtı (sek)</label><input id="setTime" type="number" value="60"></div></div><div class="row2"><div><label class="kbd">Qayta tapsırıw</label><select id="setRetry"><option value="1">Ruxsat</option><option value="0">Tıyım (olimpiada)</option></select></div><div><label class="kbd">Juwaptı kórsetiw</label><select id="setShow"><option value="after">Testten keyin</option><option value="never">Hesh qashan</option></select></div></div><button class="btn" onclick="setSave()">Saqlaw ✅</button><p class="kbd" id="setMsg"></p></div>
+<div class="card apage hidden" id="a-db"><h2>💾 <i>Oraylıq baza</i></h2><p class="desc">Oqıwshılar • Testler • Juwaplar • Ballar • Reyting — JSON backup.</p><div class="flex"><button class="btn" onclick="dbExp()">⬇ Backup (JSON)</button><button class="btn g" onclick="dbClear()">Tazalaw</button></div><p class="kbd" id="dbInfo"></p></div>
+</div></div></div>
+
+</div>
+<footer>BILIM SINAW AI © 2026 • Qanlıkól 25-mektep • Oqıwshı · Oqıtıwshı · Admin — bir sistema • Qaraqalpaq tilinde</footer>
+<div class="toast" id="toast"></div>
+<script>
+// ===== SERVER API (login+baza) =====
+const API='';
+const T=()=>localStorage.getItem('bsa_token')||'';
+async function api(p,o={}){o.headers={...(o.headers||{}),'Content-Type':'application/json'};if(T())o.headers.Authorization='Bearer '+T();const r=await fetch(API+p,o);if(!r.ok)throw new Error((await r.json().catch(()=>({}))).e||r.status);return r.json()}
+async function syncFromServer(){if(!T())return false;try{const d=await api('/api/data');DB={...DB,...d};const me=await api('/api/me');ME={l:me.l+' ('+(me.name||'')+')',r:me.r};paintUser();paintTema();slide(0);paintG();paintRate();paintK();paintTm();paintSl();paintQ();tDash();paintNat();paintU();paintPerm();return true}catch(e){return false}}
+
+// ===== SAQLAW =====
+let USERS=JSON.parse(localStorage.getItem('bsa_users')||'null')||[{l:'oqıwshı',p:'123',r:'student'},{l:'muǵallim',p:'123',r:'teacher'},{l:'admin',p:'123',r:'admin'}];
+let ME=JSON.parse(localStorage.getItem('bsa_me')||'null');
+let DB=JSON.parse(localStorage.getItem('bsa_v3')||'null')||{klass:[{n:'7A',c:29,s:82,on:1},{n:'8B',c:27,s:71,on:1}],stud:[{k:'7A',n:'Aynur Seytova'}],tema:[{t:'Algoritm túsinigi',k:'7-klass',d:'Buyrıqlar izbe-izligi'}],slayd:[{t:'Monitor',x:'Kórsetiw qurılması'},{t:'Processor',x:'Kompyuter miyi'}],soraw:[{topic:'Algoritmler',q:'Kompyuter miyi?',v:['Monitor','Processor','Klaviatura'],ok:[1]}],res:[{n:'Aynur (7A)',t:'Algoritmler',s:95},{n:'Timur (7B)',t:'Python',s:60}],dist:[{t:'7-klass Algoritmler',code:'ALG-724',on:1}],perm:{test:1,olimpiada:1,ai:1,oyin:1},set:{pass:70,time:60}};
+function save(){localStorage.setItem('bsa_v3',JSON.stringify(DB));localStorage.setItem('bsa_users',JSON.stringify(USERS))}
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+// ===== NAV =====
+const ROLE_TXT={student:'🎒 Oqıwshı',teacher:'👩‍🏫 Oqıtıwshı',admin:'🛡 Admin',guest:'👤 Miyman'};
+function paintUser(){let r=ME?ROLE_TXT[ME.r]:ROLE_TXT.guest;document.getElementById('uInfo').textContent=(ME?ME.l+' • ':'')+r;document.getElementById('uBtn').textContent=ME?'Shıǵıw':'Kiriw';document.getElementById('roleBadge').textContent=r;document.getElementById('testWho').textContent=ME?('Kirdińiz: '+ME.l+' — nátiyje atıńızǵa saqlanadı.'):'Miyman rejimi — nátiyje saqlanbaydı. Kiriń.'}
+function show(v){document.querySelectorAll('.wrap > div').forEach(d=>{if(d.id.startsWith('v-'))d.classList.add('hidden')});document.getElementById('v-'+v).classList.remove('hidden');document.querySelectorAll('#navLinks button').forEach(b=>b.classList.toggle('act',b.dataset.v===v));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('#navLinks button').forEach(b=>b.onclick=()=>needAuth(b.dataset.v));
+function needAuth(v){if((v==='teacher'&&(!ME||ME.r!=='teacher'&&ME.r!=='admin'))){toast('Oqıtıwshı huqıqı kerek! muǵallim/123');return show('login')}
+if(v==='admin'&&(!ME||ME.r!=='admin')){toast('Admin huqıqı kerek! admin/123');return show('login')}
+if((v==='test'||v==='olimpiada')&&!ME){toast('Test ushın kiriń: oqıwshı/123');return show('login')}
+if(v==='test'&&!DB.perm.test){toast('Test modulı admin tárepinen jabıq');return}
+if(v==='olimpiada'&&!DB.perm.olimpiada){toast('Olimpiada jabıq');return}
+show(v)}
+function openLogin(){if(ME){ME=null;localStorage.removeItem('bsa_me');localStorage.removeItem('bsa_token');paintUser();toast('Shıqtıńız');show('bas')}else show('login')}
+async function doLogin(){try{let l=document.getElementById('lLogin').value.trim().toLowerCase(),p=document.getElementById('lPass').value;let r=await api('/api/login',{method:'POST',body:JSON.stringify({l,p})});localStorage.setItem('bsa_token',r.token);let nm=document.getElementById('lName').value.trim();ME={l:r.l+(nm?' ('+nm+')':''),r:r.r};localStorage.setItem('bsa_me',JSON.stringify(ME));paintUser();await syncFromServer();toast('Serverge kirdingiz ✅');show('bas');return}catch(e){document.getElementById('lMsg').textContent='❌ '+e.message+' (Demo: oqiwshi/123, mugallim/123, admin/123)';return}
+function doLoginOLD(){let r=document.getElementById('lRole').value,l=document.getElementById('lLogin').value.trim(),p=document.getElementById('lPass').value;let u=USERS.find(x=>x.l===l&&x.p===p);
+if(!u){document.getElementById('lMsg').textContent='❌ Login/parol qáte. Demo: oqıwshı/123, muǵallim/123, admin/123';return}
+if(u.r!==r&&!(u.r==='admin')){document.getElementById('lMsg').textContent='❌ Bul login '+u.r+' rolinde. Rolni durıs tańlań.';return}
+let nm=document.getElementById('lName').value.trim();ME={l:u.l+(nm?' ('+nm+')':''),r:u.r};localStorage.setItem('bsa_me',JSON.stringify(ME));paintUser();toast('Xosh keldińiz! ✅');show('bas')}
+// tiles
+document.getElementById('homeTiles').innerHTML=[['📚','Temalar','5–11 klass sabaqları','temalar'],['🖥','Slaydlar','Kórgizbeli material','slayd'],['📝','Test orayı','6 format','test'],['🏆','Olimpiada','3 basqısh','olimpiada'],['🤖','AI ustaz','Járdemshi','ai'],['🎮','Oyin','Kod tártiple','oyin'],['⭐','Reyting','Jetiskenlik','reyting'],['👩‍🏫','Oqıtıwshı','Kabinet PRO','teacher'],['🛡','Admin','Baza + ruxsat','admin']].map(x=>`<div class="tile" onclick="needAuth('${x[3]}')"><div class="ic">${x[0]}</div><h3>${x[1]}</h3><p>${x[2]}</p></div>`).join('');
+// ===== TEMALAR =====
+const BASE={"5-klass":["Kompyuter menen tanısıw","Fayl hám papka"],"6-klass":["Wordta tekst","Internet qáwipsizligi"],"7-klass":["Algoritm","Blok-sxema","Scratch"],"8-klass":["Python kirisiw","Shárt operatorı"],"9-klass":["Funkciyalar","Tarmaqlar"],"10-klass":["HTML hám CSS","Jasalma intellekt"],"11-klass":["JS","IT kásipleri"]};
+let curK='7-klass';let kt=document.getElementById('klassTabs');Object.keys(BASE).forEach(k=>{let d=document.createElement('div');d.className='tab'+(k===curK?' act':'');d.textContent=k;d.onclick=()=>{curK=k;kt.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));d.classList.add('act');paintTema()};kt.appendChild(d)});
+function paintTema(){document.getElementById('temaGrid').innerHTML=BASE[curK].map(t=>`<div class="tile" onclick="show('slayd')"><div class="ic">📖</div><h3>${t}</h3><p>${curK}</p></div>`).join('');
+document.getElementById('customTema').innerHTML=DB.tema.length?'<h3 style="margin-top:10px">Oqıtıwshı qosqan temalar:</h3><div class="grid">'+DB.tema.map(x=>`<div class="tile" onclick="show('slayd')"><div class="ic">✨</div><h3>${x.t}</h3><p>${x.k} • ${x.d||''}</p></div>`).join('')+'</div>':''}
+// ===== SLAYD =====
+let SL=[],si=0;function syncSl(){SL=[...DB.slayd.map(s=>s.t+': '+s.x),'🖥 Monitor — kórsetedi','🧠 Processor — miy','💾 Yad — saqlaydı']}
+function slide(d){syncSl();si=(si+d+SL.length)%SL.length;document.getElementById('slBody').textContent=(si+1)+'. '+SL[si];document.getElementById('slNum').textContent=(si+1)+' / '+SL.length}
+// ===== TEST =====
+const TB={"Bir juwaplı":[["Kompyuter miyi?|Monitor;Processor;Klaviatura|1","1 KB=?|100;1024;512|1"]],"Kóp juwaplı":[["Kiritiw qurılması?|Monitor;Klaviatura;Sıshan|1,2"]],"Sáykeslestiriw":[[]],"Interaktiv":[["Tártip: Baslaw→Kiritiw→Shıǵarıw|Baslaw;Kiritiw;Shıǵarıw|0,1,2"]],"Súwretli":[["🖥 Bul ne?|Monitor|Televizor|Printer|0"]],"Waqıtlı":[["print buyrıǵı?|echo;print;show|1"]]};
+let curT="Bir juwaplı",tInt=null;let tt=document.getElementById('testTabs');Object.keys(TB).forEach(k=>{let d=document.createElement('div');d.className='tab'+(k===curT?' act':'');d.textContent=k;d.onclick=()=>{curT=k;tt.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));d.classList.add('act')};tt.appendChild(d)});
+function allQ(){let base=TB[curT][0].map(q=>{let p=q.split('|');return{q:p[0],v:p[1].split(';'),ok:p[2].split(',').map(Number)}});let extra=DB.soraw.filter(s=>curT==="Bir juwaplı").map(s=>({q:s.q,v:s.v,ok:s.ok}));return [...base,...extra]}
+function startTest(timed){clearInterval(tInt);let box=document.getElementById('quiz');document.getElementById('qResult').innerHTML='';
+if(curT==="Sáykeslestiriw"){box.innerHTML=[".docx",".jpg",".mp3"].map((w,i)=>`<div class="flex"><b style="width:70px">${w}</b><select data-m="${i}" style="max-width:180px"><option value="">tańlań</option><option>Tekst</option><option>Súwret</option><option>Audio</option></select></div>`).join('')+`<button class="btn" onclick="checkM()">Tekseriw</button>`;return}
+let qs=allQ();document.getElementById('qCount').textContent=qs.length+' soraw';
+box.innerHTML=qs.map((e,i)=>`<div style="margin:10px 0"><b>${i+1}. ${e.q}</b>`+e.v.map((o,j)=>`<span class="quiz-opt" data-q="${i}" data-o="${j}" onclick="pick(this,${i})">${o}</span>`).join('')+`</div>`).join('')+`<button class="btn" onclick="finish()">Juwmaqlaw ✅</button>`;
+if(timed){let lim=DB.set.time;document.getElementById('timer').textContent='⏱ '+lim;tInt=setInterval(()=>{lim--;document.getElementById('timer').textContent='⏱ '+lim;if(lim<=0){clearInterval(tInt);finish()}},1000)}}
+function pick(el,q){document.querySelectorAll(`[data-q="${q}"]`).forEach(e=>e.classList.remove('sel'));el.classList.add('sel')}
+function finish(){clearInterval(tInt);let qs=allQ(),s=0;qs.forEach((e,i)=>{let sel=document.querySelector(`[data-q="${i}"].sel`);let good=sel&&e.ok.includes(+sel.dataset.o)&&e.ok.length===1;if(good)s++;document.querySelectorAll(`[data-q="${i}"]`).forEach(x=>{if(e.ok.includes(+x.dataset.o))x.classList.add('ok');else if(x.classList.contains('sel'))x.classList.add('bad')})});
+let pct=Math.round(s/qs.length*100);window.last=pct;let nm=ME?ME.l:'Miyman';
+if(ME){DB.res.push({n:nm,t:curT,s:pct});save();api('/api/res',{method:'POST',body:JSON.stringify({t:curT,s:pct})}).catch(()=>{});paintRate();paintNat()}
+document.getElementById('qResult').innerHTML=`<div class="q">🏁 <b>${s}/${qs.length} (${pct} ball)</b> — ${pct>=DB.set.pass?'🎉 Óttińiz!':'📚 Qayta urınıń.'}</div>`}
+function checkM(){let v=[...document.querySelectorAll('[data-m]')].map(e=>e.value);let ok=['Tekst','Súwret','Audio'],c=v.filter((x,i)=>x===ok[i]).length;let pct=Math.round(c/3*100);if(ME){DB.res.push({n:ME.l,t:'Sáykeslestiriw',s:pct});save();paintRate();paintNat()}document.getElementById('qResult').innerHTML=`<b>${c}/3 (${pct})</b>`}
+// ===== OLIMPIADA =====
+const OL={1:["2+2×2=?|6;8|0","Kiritiw?|Monitor;Sıshan|1"],2:["Algoritm ne?|Buyrıq;Oyin|0","Scratch ne?|Til;Brauzer|0"],3:["print(2**3)=?|6;8|1","IP ne?|Mánzil;Oyin|0"]};
+function olimp(l){document.getElementById('olBox').innerHTML=`<b>${l}-basqısh</b>`+OL[l].map((q,i)=>{let p=q.split('|');return `<div><b>${i+1}. ${p[0]}</b>`+p[1].split(';').map((o,j)=>`<span class="quiz-opt ol" data-oq="${i}" onclick="this.parentElement.querySelectorAll('.ol').forEach(e=>e.classList.remove('sel'));this.classList.add('sel')">${o}</span>`).join('')+`</div>`}).join('')+`<button class="btn" onclick="olFin(${l})">Tapsırıw</button>`}
+function olFin(l){let s=0;OL[l].forEach((q,i)=>{let ok=+q.split('|')[2];let e=document.querySelector(`.ol[data-oq="${i}"].sel`);if(e&&[...e.parentElement.querySelectorAll('.ol')].indexOf(e)===ok)s++});let pct=Math.round(s/OL[l].length*100);window.last=pct;if(ME){DB.res.push({n:ME.l,t:'Olimpiada '+l,s:pct});save();paintRate();paintNat()}document.getElementById('olBox').innerHTML=`<h3>${s}/${OL[l].length} (${pct})</h3>`}
+function diplom(){if((window.last||0)<DB.set.pass){alert('Diplom ushın '+DB.set.pass+'+ kerek');return}let w=window.open('','_blank');w.document.write(`<h1 style="text-align:center">🎓 DIPLOM<br>${window.last} ball<br>BILIM SINAW AI • 2026</h1>`);w.print()}
+// ===== AI + OYIN + REYT =====
+function ask(){let v=document.getElementById('chatIn').value.trim();if(!v)return;let c=document.getElementById('chat');c.innerHTML+=`<div class="msg me">${v}</div>`;document.getElementById('chatIn').value='';let a=/algoritm/i.test(v)?'Algoritm — anıq buyrıqlar izbe-izligi: bası → kiritiw → esaplaw → shıǵarıw.':/python|print/i.test(v)?"print('Sálem') — shıǵarıw. x=5 — ózgeriwshi.":'3 qádem: túsinik → mısal → test. Test orayın sınap kóriń!';setTimeout(()=>{c.innerHTML+=`<div class="msg ai">🤖 ${a}</div>`;c.scrollTop=9999},400)}
+let GO=["🟢 Baslaw","⌨️ Kiritiw","➕ 5 qosıw","🖥 Shıǵarıw"],GC=[];function paintG(){GC=[];let sh=[...GO].sort(()=>Math.random()-.5);document.getElementById('game').innerHTML=sh.map(s=>`<span class="quiz-opt" onclick="gP(this,'${s}')">${s}</span>`).join('')}
+function gP(el,s){GC.push(s);el.style.opacity=.35;el.style.pointerEvents='none';if(GC.length===4){let ok=GC.every((v,i)=>v===GO[i]);document.getElementById('gameRes').textContent=ok?'🎉 Durıs!':'❌ Qayta.';if(ok&&ME){DB.res.push({n:ME.l,t:'Oyin',s:100});save();paintRate()}setTimeout(()=>{paintG();document.getElementById('gameRes').textContent=''},1400)}}
+function paintRate(){let r=[...DB.res].sort((a,b)=>b.s-a.s).slice(0,10);document.getElementById('rateBody').innerHTML=r.map((x,i)=>`<tr><td>${['🥇','🥈','🥉'][i]||i+1}</td><td>${x.n}</td><td>${x.t}</td><td><b style="color:var(--cyan)">${x.s}</b></td></tr>`).join('')}
+// ===== TEACHER PRO =====
+document.querySelectorAll('#tMenu button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tMenu button').forEach(x=>x.classList.remove('act'));b.classList.add('act');document.querySelectorAll('.tpage').forEach(p=>p.classList.add('hidden'));document.getElementById('t-'+b.dataset.t).classList.remove('hidden')});
+function tDash(){document.getElementById('tStats').innerHTML=[['Klasslar',DB.klass.length],['Sorawlar',DB.soraw.length],['Nátiyje',DB.res.length],['Orta',DB.res.length?Math.round(DB.res.reduce((a,b)=>a+b.s,0)/DB.res.length)+'%':'—']].map(x=>`<div class="tile"><b style="font-size:24px;color:var(--cyan)">${x[1]}</b><p>${x[0]}</p></div>`).join('');
+document.getElementById('tActive').innerHTML=DB.dist.map((d,i)=>`<div class="q">🟢 <b>${d.t}</b> <span class="badge2 ${d.on?'on':'off'}">${d.on?'aktiv':'arxiv'}</span> <span class="kbd">${d.code}</span> <button class="btn s g" onclick="DB.dist[${i}].on=!DB.dist[${i}].on;save();tDash();paintD()">almastır</button></div>`).join('')}
+function paintK(){document.getElementById('kBody').innerHTML=DB.klass.map((k,i)=>`<tr><td>${k.n}</td><td>${k.c}</td><td>${k.s}%</td><td><span class="badge2 ${k.on?'on':'off'}">${k.on?'aktiv':'passiv'}</span></td><td><button class="btn s g" onclick="DB.klass[${i}].on=!DB.klass[${i}].on;save();paintK()">almastır</button></td></tr>`).join('');document.getElementById('sKlass').innerHTML=DB.klass.map(k=>`<option>${k.n}</option>`).join('')}
+function klassAdd(){let v=document.getElementById('kName').value||'Klass';DB.klass.push({n:v,c:25,s:0,on:1});save();paintK();tDash()}
+function studAdd(){let n=document.getElementById('sName').value;if(!n)return;DB.stud.push({k:document.getElementById('sKlass').value,n});save();toast('Qosıldı ✅')}
+function temaAdd(){DB.tema.push({t:document.getElementById('tmTitle').value||'Jańa tema',k:'7-klass',d:document.getElementById('tmDesc').value});save();paintTema();paintTm();toast('Saqlanadı ✅')}
+function paintTm(){document.getElementById('tmList').innerHTML=DB.tema.map((x,i)=>`<div class="q"><b>${x.t}</b> <button class="btn s d" onclick="DB.tema.splice(${i},1);save();paintTm();paintTema()">óshir</button></div>`).join('')}
+function slaydAdd(){DB.slayd.push({t:document.getElementById('slT').value||'Slayd',x:document.getElementById('slX').value});save();paintSl();toast('Qosıldı ✅')}
+function paintSl(){document.getElementById('slList').innerHTML=DB.slayd.map((s,i)=>`<div class="q"><b>${i+1}. ${s.t}</b> — ${s.x} <button class="btn s d" onclick="DB.slayd.splice(${i},1);save();paintSl()">óshir</button></div>`).join('')}
+function aiQ(){['Kompyuter miyi?|Monitor;Processor;Klaviatura|1','print(2+3)=?|5;23;6|0'].forEach(l=>{let p=l.split('|');DB.soraw.push({topic:'AI',q:p[0],v:p[1].split(';'),ok:[+p[2]]})});save();paintQ();tDash()}
+function qAdd(){let v=document.getElementById('qVars').value.split(';').map(s=>s.trim()).filter(Boolean);if(!document.getElementById('qText').value||v.length<2)return toast('Toltırıń!');DB.soraw.push({topic:document.getElementById('qTopic').value,q:document.getElementById('qText').value,v,ok:[+document.getElementById('qOk').value||0]});save();paintQ();tDash()}
+function paintQ(){document.getElementById('qList').innerHTML=DB.soraw.map((s,i)=>`<div class="q"><b>${i+1}. ${s.q}</b> <span class="kbd">${s.topic}</span><br><span class="kbd">${s.v.join(' · ')}</span> <button class="btn s d" onclick="DB.soraw.splice(${i},1);save();paintQ()">óshir</button></div>`).join('')}
+function imDemo(){document.getElementById('imT').value="Algoritm ne? | Buyrıq ; Oyin ; Súwret | 0\nprint(2+3)=? | 5 ; 23 ; 6 | 0"}
+function imRead(){let f=document.getElementById('imF').files[0];if(!f)return;let r=new FileReader();r.onload=e=>document.getElementById('imT').value=e.target.result.slice(0,3000);r.readAsText(f)}
+function imParse(){let L=document.getElementById('imT').value.split('\n').filter(l=>l.includes('|'));document.getElementById('imOut').innerHTML='<table><tbody>'+L.map(l=>`<tr><td>${l}</td></tr>`).join('')+'</tbody></table><button class="btn" style="margin-top:6px" onclick="imSave()">Saqlaw ✅</button>';window._imp=L}
+function imSave(){window._imp.forEach(l=>{let p=l.split('|');DB.soraw.push({topic:'Import',q:p[0].trim(),v:p[1].split(';').map(s=>s.trim()),ok:[+p[2]||0]})});save();paintQ();tDash();toast('Import ✅')}
+function distCreate(){let t=document.getElementById('dTitle').value;let code='T-'+Math.floor(100+Math.random()*900);DB.dist.push({t,code,on:1});save();tDash();paintD();let c=document.getElementById('qrCanvas'),x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,140,140);x.fillStyle='#050b1e';for(let i=0;i<14;i++)for(let j=0;j<14;j++)if((i*13+j*17+code.length*7)%3===0)x.fillRect(6+i*9,6+j*9,7,7);document.getElementById('dLink').textContent='https://bilim-sinaw-ai.uz/test/'+code.toLowerCase()}
+function paintD(){/* in tDash */}
+function paintNat(){document.getElementById('nBody').innerHTML=[...DB.res].reverse().slice(0,20).map((r,i)=>`<tr><td>${r.n}</td><td>${r.t}</td><td><b style="color:var(--cyan)">${r.s}</b></td><td><button class="btn s d" onclick="DB.res.splice(${DB.res.length-1-i},1);save();paintNat();paintRate()">óshir</button></td></tr>`).join('')}
+function analiz(){let by={};DB.res.forEach(r=>{by[r.t]=by[r.t]||[];by[r.t].push(r.s)});document.getElementById('anBox').innerHTML=Object.entries(by).map(([k,v])=>{let a=Math.round(v.reduce((x,y)=>x+y,0)/v.length);return `<p><b>${k}</b> — ${a}%</p><div class="bar"><i style="width:${a}%"></i></div>`}).join('')||'<p class="kbd">Nátiyje joq.</p>'}
+setInterval(()=>{if(!document.getElementById('t-analiz').classList.contains('hidden'))analiz()},1000);
+function expCSV(){let s='Oqwshi,Test,Ball\n'+DB.res.map(r=>`"${r.n}",${r.t},${r.s}`).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+s],{type:'text/csv'}));a.download='esabat.csv';a.click()}
+// ===== ADMIN =====
+document.querySelectorAll('#aMenu button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#aMenu button').forEach(x=>x.classList.remove('act'));b.classList.add('act');document.querySelectorAll('.apage').forEach(p=>p.classList.add('hidden'));document.getElementById('a-'+b.dataset.a).classList.remove('hidden')});
+function paintU(){document.getElementById('auBody').innerHTML=USERS.map((u,i)=>`<tr><td>${u.l} (${u.p})</td><td>${u.r}</td><td><button class="btn s d" onclick="USERS.splice(${i},1);save();paintU()">óshir</button></td></tr>`).join('')}
+function uAdd(){let l=document.getElementById('auN').value.trim();if(!l)return;USERS.push({l,p:'123',r:document.getElementById('auR').value});save();paintU()}
+function paintPerm(){document.getElementById('permBox').innerHTML=Object.entries(DB.perm).map(([k,v])=>`<div class="q"><b>${k}</b> <span class="badge2 ${v?'on':'off'}">${v?'ashıq':'jabıq'}</span> <button class="btn s g" onclick="DB.perm['${k}']=!DB.perm['${k}'];save();paintPerm()">${v?'Jabıw':'Ashıw'}</button></div>`).join('')}
+function setSave(){DB.set.pass=+document.getElementById('setPass').value;DB.set.time=+document.getElementById('setTime').value;save();document.getElementById('setMsg').textContent='✅ Saqlandı: ótiw balı '+DB.set.pass+', waqıt '+DB.set.time+' sek'}
+function dbExp(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({USERS,DB},null,2)],{type:'application/json'}));a.download='baza-backup.json';a.click();document.getElementById('dbInfo').textContent='Backup júklendi. Kólem: '+JSON.stringify(DB).length+' belgi.'}
+function dbClear(){if(confirm('Bazanı tazalaymızba?')){DB.res=[];save();paintRate();paintNat();toast('Tazalandı')}}
+// init
+paintUser();paintTema();slide(0);paintG();paintRate();paintK();paintTm();paintSl();paintQ();tDash();paintNat();paintU();paintPerm();
+document.getElementById('setPass').value=DB.set.pass;document.getElementById('setTime').value=DB.set.time;
+</script>
+</body>
+</html>
